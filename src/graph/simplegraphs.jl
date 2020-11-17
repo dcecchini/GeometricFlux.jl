@@ -19,12 +19,12 @@ function ChebConv(g::AbstractSimpleGraph, ch::Pair{<:Integer,<:Integer}, k::Inte
 end
 
 
-function GraphConv(g::AbstractSimpleGraph, ch::Pair{<:Integer,<:Integer}, aggr=:add;
+function GraphConv(g::AbstractSimpleGraph, ch::Pair{<:Integer,<:Integer}, σ=identity, aggr=:add;
                    init = glorot_uniform, T::DataType=Float32, bias::Bool=true)
     w1 = T.(init(ch[2], ch[1]))
     w2 = T.(init(ch[2], ch[1]))
     b = bias ? T.(init(ch[2])) : zeros(T, ch[2])
-    GraphConv(FeaturedGraph(g), w1, w2, b, aggr)
+    GraphConv(FeaturedGraph(g), w1, w2, b, σ, aggr)
 end
 
 
@@ -33,7 +33,7 @@ function GATConv(g::AbstractSimpleGraph, ch::Pair{<:Integer,<:Integer}; heads=1,
                  T::DataType=Float32, bias::Bool=true)
     w = T.(init(ch[2]*heads, ch[1]))
     b = bias ? T.(init(ch[2]*heads)) : zeros(T, ch[2]*heads)
-    a = T.(init(2*ch[2], heads, 1))
+    a = T.(init(2*ch[2], heads))
     GATConv(FeaturedGraph(g), w, b, a, negative_slope, ch, heads, concat)
 end
 

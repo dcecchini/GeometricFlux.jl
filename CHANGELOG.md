@@ -2,10 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.4]
+
+- Adjust edge_index_table API for directed
+- apply_batch_message as API
+- Support CUDA v2.1
+- Refactor
+- Fix bug
+
+## [0.7.3]
+
+- Add bypass_graph
+- Support FeaturedGraph as input graph for GCNConv
+- Add node index for message/update function
+- Add activation function for GraphConv
+- Reexport GraphSignals
+- Support FillArrays v0.10
+- Bug fix
+
+## [0.7.2]
+
+- Differentiability test
+- Refactor GN for differentiability
+- Remove cache argument from layer
+- Add docs
+- Bump CUDA to v2.0
+- Add paper
+
+## [0.7.1]
+
+- Add GraphMLDatasets as dependency to provide datasets
+
 ## [0.7.0]
 
- - VGAE example available
- - Add Planetoid and Cora dataset
+- VGAE example available
+- Add Planetoid and Cora dataset
 
 ## [0.6.3]
 

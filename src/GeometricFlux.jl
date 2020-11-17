@@ -2,14 +2,15 @@ module GeometricFlux
 
 using Statistics: mean
 using SparseArrays: SparseMatrixCSC
-using LinearAlgebra: Adjoint, norm
+using LinearAlgebra: Adjoint, norm, Transpose
+using Reexport
 
-using DataDeps: DataDep, register
+using CUDA
 using FillArrays: Fill
 using Flux
 using Flux: glorot_uniform, leakyrelu, GRUCell
 using Flux: @functor
-using GraphSignals
+@reexport using GraphSignals
 using LightGraphs
 using Requires
 using ScatterNNlib
@@ -19,11 +20,6 @@ using ZygoteRules
 import Flux: maxpool, meanpool
 
 export
-    datasets,
-    traindata,
-    validdata,
-    testdata,
-
     # layers/gn
     GraphNet,
     update_edge,
@@ -82,11 +78,12 @@ export
     generate_cluster,
 
     # utils
-    topk_index
+    topk_index,
+    bypass_graph
 
 const IntOrTuple = Union{Integer,Tuple}
 
-include("datasets/Datasets.jl")
+include("datasets.jl")
 
 include("pool.jl")
 
@@ -109,7 +106,6 @@ using .Datasets
 
 function __init__()
     @require CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba" begin
-        using CUDA
         include("cuda/msgpass.jl")
         include("cuda/conv.jl")
         include("cuda/pool.jl")
